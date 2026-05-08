@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Plotly Points Graph</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h2>Planned vs Actual Points</h2>
+    <div id="graph" style="width:100%; height:600px;"></div>
+    <script>
+        window.onload = function () {
+            const apiData = [
+                {
+                    task: "Requirement Analysis",
+                    planned_date: "2026-05-01",
+                    actual_date: "2026-05-02"
+                },
+
+                {
+                    task: "UI Design",
+                    planned_date: "2026-05-03",
+                    actual_date: "2026-05-05"
+                },
+
+                {
+                    task: "Database Setup",
+                    planned_date: "2026-05-06",
+                    actual_date: "2026-05-06"
+                },
+
+                {
+                    task: "Backend Development",
+                    planned_date: "2026-05-08",
+                    actual_date: "2026-05-10"
+                }
+
+            ];
+
+            drawGraph(apiData);
+
+        };
+        function drawGraph(data) {
+
+            const planned_point = {
+
+                x: [],
+
+                y: [],
+
+                mode: "markers",
+
+                type: "bar",
+
+                orientation: "h",
+
+                name: "Planned Date",
+
+                marker: {
+
+                    size: 14,
+
+                    color: []
+
+                }
+
+            };
+
+
+            const actual_point = {
+
+                x: [],
+
+                y: [],
+
+                mode: "markers",
+
+                type: "bar",
+
+                orientation: "h",
+
+                name: "Actual Date",
+
+                marker: {
+
+                    size: 14,
+
+                    color: []
+
+                }
+
+            };
+
+
+            data.forEach((item) => {
+
+                const sameDate =
+                    item.planned_date === item.actual_date;
+
+
+                planned_point.x.push(item.planned_date);
+
+                planned_point.y.push(item.task);
+
+
+
+                actual_point.x.push(item.actual_date);
+
+                actual_point.y.push(item.task);
+
+
+
+                if (sameDate) {
+
+                    planned_point.marker.color.push("blue");
+
+                    actual_point.marker.color.push("blue");
+
+                }
+
+                else {
+
+                    planned_point.marker.color.push("green");
+
+                    actual_point.marker.color.push("red");
+
+                }
+
+            });
+
+            const all_axis = [
+
+                planned_point,
+
+                actual_point
+
+            ];
+
+
+
+            const layout = {
+
+                title: "Task Planned vs Actual Dates",
+
+
+
+                xaxis: {
+
+                    title: "Timeline",
+
+                    type: "date",
+
+                    tickformat: "%Y-%m-%d",
+
+                    dtick: 86400000
+
+                },
+
+
+
+                yaxis: {
+
+                    title: "Tasks"
+
+                }
+
+            };
+            Plotly.newPlot("graph", all_axis, layout);
+
+        }
+
+    </script>
+
+</body>
+
+</html>
